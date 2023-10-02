@@ -1,23 +1,26 @@
 import mongoose from "mongoose";
-import { string } from "prop-types";
 
-const userSchema= new mongoose.Schema({
+
+const userSchema= new mongoose.Schema(
+    {
     username:{
-        type:string,
+        type:String,
         required:true,
         unique:true,
     },
     email:{
-        type:string,
+        type:String,
         required:true,
         unique:true,
     },
     password:{
-        type:string,
+        type:String,
         required:true,
     }
-}, {timestamps:true});
+    }, 
+    {timestamps:true}
+    );
 
-const User=mongoose.model('User',userSchema);
+const User = mongoose.model('User', userSchema);
 
 export default User;
