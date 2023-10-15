@@ -1,4 +1,5 @@
 import Listing from "../models/listing.model.js";
+import { errorHandler } from "../utils/error.js";
 
 export const createListing=async(req,res,next)=>{
 
@@ -28,4 +29,24 @@ export const deleteListing=async(req,res,next)=>{
         next(error);
         
     }
+}
+
+export const updateListing=async(req,res,next)=>{
+    const listing=await Listing.findById(req.params.id);
+    if(!listing){
+        return next(errorHandler(404,'Listing not Found'));
+
+    }
+    if(req.user.id !== listing.userRef){
+        return next(errorHandler(401,'User listing not Found'));
+    }
+    try {
+        await Listing.findByIdAndUpdate(req.params.id, req.body, {new:true});
+        res.status(201).json(updateListing); 
+        
+    } catch (error) {
+        next(error);
+    }
+
+
 }
